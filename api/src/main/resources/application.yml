@@ -1,0 +1,4 @@
+open-api:
+  kakao:
+    url: https://dapi.kakao.com/v2/search/blog
+    api-key: 383d35930fb99d8d14ff9eb70177444f

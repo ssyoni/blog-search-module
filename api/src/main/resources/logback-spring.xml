@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+    <property name="home" value="logs"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>[%d{yyyy-MM-dd HH:mm:ss}:%-3relative][%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </layout>
+    </appender>
+
+    <appender name="SAVE_SEARCH_WORD_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
+                <timestampFormat>yyyy-MM-dd'T'HH:mm:ss.SSSX</timestampFormat>
+                <timestampFormatTimezoneId>Etc/UTC</timestampFormatTimezoneId>
+                <appendLineSeparator>true</appendLineSeparator>
+            </layout>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${home}/response/event-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>15mb</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <!--<encoder>
+            <charset>utf8</charset>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>-->
+    </appender>
+
+    <appender name="ERROR_FILE_APPENDER"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${home}/error-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>15mb</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <charset>utf8</charset>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+    <logger name="ERROR_FILE_LOGGER" level="ERROR" additivity="true">
+        <appender-ref ref="ERROR_FILE_APPENDER"/>
+    </logger>
+
+    <logger name="SAVE_SEARCH_WORD_LOGGER" level="DEBUG" additivity="true">
+        <appender-ref ref="SAVE_SEARCH_WORD_APPENDER"/>
+    </logger>
+
+</configuration>

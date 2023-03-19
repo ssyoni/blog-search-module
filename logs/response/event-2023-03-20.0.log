@@ -1,0 +1,4 @@
+{timestamp=2023-03-19T15:46:30.999Z, level=DEBUG, thread=http-nio-8080-exec-2, mdc={score=1, id=1, keyword=얍얍, event=insert}, logger=SAVE_SEARCH_WORD_LOGGER, message=response modules.be.domain.dto.SearchWordResponse@217edfd2, context=default}
+{timestamp=2023-03-19T15:46:37.643Z, level=DEBUG, thread=http-nio-8080-exec-3, mdc={score=2, id=1, keyword=얍얍, event=update}, logger=SAVE_SEARCH_WORD_LOGGER, message=response modules.be.domain.dto.SearchWordResponse@3f63e322, context=default}
+{timestamp=2023-03-19T15:46:39.061Z, level=DEBUG, thread=http-nio-8080-exec-4, mdc={score=3, id=1, keyword=얍얍, event=update}, logger=SAVE_SEARCH_WORD_LOGGER, message=response modules.be.domain.dto.SearchWordResponse@6c75ef74, context=default}
+{timestamp=2023-03-19T15:46:39.706Z, level=DEBUG, thread=http-nio-8080-exec-5, mdc={score=4, id=1, keyword=얍얍, event=update}, logger=SAVE_SEARCH_WORD_LOGGER, message=response modules.be.domain.dto.SearchWordResponse@366fb5b4, context=default}

@@ -1,0 +1,5 @@
+rootProject.name = 'blog-search'
+include 'api'
+include 'client'
+include 'domain'
+include 'batch'

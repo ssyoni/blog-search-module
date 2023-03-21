@@ -21,6 +21,4 @@ public interface SearchWordLogRepository extends JpaRepository<SearchWordLog, UU
     @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value ="3000")})   // 딜레이 제한
     @Transactional // TODO 트랜잭션 격리레벨 이상한데?
     SearchWordLog findByKeyword(String keyword);
-
-    List<SearchWordLog> findByScoreGreaterThan(int size);
 }

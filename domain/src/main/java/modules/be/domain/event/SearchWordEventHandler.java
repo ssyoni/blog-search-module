@@ -22,7 +22,7 @@ public class SearchWordEventHandler {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Async // 검색어 조회 성능을 위해 비동기 적용
     public void writeSearchWord(SearchedEvent event){
-        log.info("create SearchWordEventHandler");
+        log.info("create SearchWordEventHandler event = {}",event.toString());
         logService.writeSearchWord(event.getKeyword());
     }
 

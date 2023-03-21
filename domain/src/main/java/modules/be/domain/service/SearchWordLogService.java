@@ -43,14 +43,4 @@ public class SearchWordLogService {
         return new SearchWordResponse(searchWordLog);
     }
 
-    @Transactional
-    public HotKeywordsResponse selectSearchWordList(){
-        List<SearchWordLog> searchWordLog = searchWordLogRepository.findByScoreGreaterThan(10);
-        List<SearchWordResponse> responses = searchWordLog.stream().map(searchWord -> {
-                 return SearchWordResponse.builder()
-                            .keyword(searchWord.getKeyword())
-                            .score(searchWord.getScore()).build();
-        }).toList();
-        return new HotKeywordsResponse(responses);
-    }
 }

@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @EnableBatchProcessing
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"modules.be.batch","modules.be.consumer"})
 public class BatchApplication {
 
     public static void main(String[] args) {

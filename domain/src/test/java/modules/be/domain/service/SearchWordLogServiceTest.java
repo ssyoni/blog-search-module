@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class SearchWordLogServiceTest {
-   /* @Autowired
+    @Autowired
     SearchWordLogService searchWordLogService;
     @Autowired
     SearchWordLogRepository searchWordLogRepository;
@@ -78,5 +78,4 @@ class SearchWordLogServiceTest {
         SearchWordLog result = searchWordLogRepository.findByKeyword(keyword);
         assertEquals(numberOfThreads+1, result.getScore());
     }
-*/
 }

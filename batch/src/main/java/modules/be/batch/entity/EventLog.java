@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class EventLog {
-    private Long id;
+    private String id;
     private String keyword;
-    private Long score;
+    private String score;
     private String event;
 }

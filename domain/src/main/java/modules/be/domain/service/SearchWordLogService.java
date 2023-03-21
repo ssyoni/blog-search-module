@@ -5,6 +5,7 @@ import modules.be.domain.dto.SearchWordResponse;
 import modules.be.domain.entity.SearchWordLog;
 import modules.be.domain.repository.SearchWordLogRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -12,12 +13,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class SearchWordLogService {
     private final SearchWordLogRepository searchWordLogRepository;
 
+//    @Transactional
+    public SearchWordLog findByKeyword(String keyword){
+        return searchWordLogRepository.findByKeyword(keyword);
+    }
+
     @Transactional
     public SearchWordResponse writeSearchWord(String keyword){
-        SearchWordLog searchWordLog = searchWordLogRepository.findByKeyword(keyword);
-        System.out.println("searchWordLog :: " + searchWordLog);
+        SearchWordLog searchWordLog = findByKeyword(keyword);
+
         boolean isWordExist = searchWordLog != null;
         String action = "";
+
         // update
         if (isWordExist){
             searchWordLog.updateScore();

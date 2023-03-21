@@ -3,11 +3,13 @@ package modules.be.domain.dto;
 import lombok.*;
 import modules.be.domain.entity.SearchWordLog;
 
+import java.util.UUID;
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class SearchWordResponse{
-    private Long id;
+    private UUID id;
     private String keyword;
     private Long score;
     private String event;

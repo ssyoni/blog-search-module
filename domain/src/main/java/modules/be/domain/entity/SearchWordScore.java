@@ -3,29 +3,26 @@ package modules.be.domain.entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.UUID;
 
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
+@Getter
+@NoArgsConstructor
 @Table(
-        name = "search_word_log",
+        name = "search_word_score",
         uniqueConstraints = {
                 @UniqueConstraint(
-                        name = "unique_word_",
+                        name = "unique_word_keyword",
                         columnNames = {"keyword"}
                 )
         },
-        indexes = @Index(name = "idx__keyword", columnList = "keyword")
+        indexes = @Index(name = "idx__score", columnList = "score")
 )
-public class SearchWordLog {
+public class SearchWordScore {
+
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name="uuid2", strategy = "uuid2")
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
 
@@ -38,12 +35,18 @@ public class SearchWordLog {
 //    @Version
 //    private Integer version;
 
-    public void updateScore(){
-        this.score = this.score + 1;
+    public void updateScore(Long score){
+        this.score = score;
     }
 
-    public SearchWordLog(String keyword){
+    public SearchWordScore(UUID id, String keyword, Long score){
+        this.id = id;
         this.keyword = keyword;
+        this.score = score;
     }
 
+//    public SearchWordScore(String keyword, Long score){
+//        this.keyword = keyword;
+//        this.score = score;
+//    }
 }

@@ -20,21 +20,8 @@ import javax.validation.Valid;
 public class BlogSearchController {
     private final BlogSearchService blogSearchService;
 
-/*    @GetMapping("/search")
-    public BaseResponse<SearchBaseResponse> searchBlog(
-            @RequestParam String keyword,
-            @RequestParam(required = false, defaultValue = "1") String searchPage,
-            @RequestParam(required = false, defaultValue = "10") String pageSize,
-            @RequestParam(required = false, defaultValue = "ACCURACY") Sort pageSort
-            ){
-        log.info("keyword = {}, searchPage ={}, pageSize ={}, pageSort = {}",keyword, searchPage, pageSize, pageSort);
-        SearchBaseResponse response = blogSearchService.searchBlog(new SearchRequest(keyword, searchPage, pageSort, pageSize));
-
-        return new BaseResponse(response);
-    }*/
-
     @PostMapping("/search")
-    public BaseResponse<SearchBaseResponse> searchBlog(@Valid @RequestBody SearchRequest searchRequest
+    public BaseResponse<SearchBaseResponse> searchBlog(@RequestBody SearchRequest searchRequest
     ){
         log.info("blog search requestBody = {}",searchRequest.toString());
         SearchBaseResponse response = blogSearchService.searchBlog(searchRequest);

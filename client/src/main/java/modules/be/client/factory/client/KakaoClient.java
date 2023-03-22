@@ -1,11 +1,9 @@
 package modules.be.client.factory.client;
 
 import lombok.*;
-import lombok.extern.slf4j.Slf4j;
 import modules.be.client.dto.*;
 import modules.be.client.entity.BlogInfo;
 import modules.be.client.entity.Pagination;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -18,7 +16,6 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class KakaoClient implements SearchClient {
@@ -29,20 +26,10 @@ public class KakaoClient implements SearchClient {
     public SearchBaseResponse request(SearchRequest requestParam) {
         // 요청처리
         KakaoRequest request = new KakaoRequest(requestParam);
-
         HttpEntity<String> httpEntity = new HttpEntity<>(createHeader());
-        URI uri = UriComponentsBuilder.fromHttpUrl(URL)
-                .queryParam("query", request.getQuery())
-                .queryParam("sort", request.getSort())
-                .queryParam("page", request.getPage())
-                .queryParam("size", request.getSize())
-                .build()
-                .encode()
-                .toUri();
 
         //요청
-        ResponseEntity<KakaoResponse> result = restTemplate.exchange(uri,HttpMethod.GET,httpEntity, KakaoResponse.class);
-
+        ResponseEntity<KakaoResponse> result = restTemplate.exchange(uriBuilder(request),HttpMethod.GET,httpEntity, KakaoResponse.class);
 
         //응답처리
         List<BlogInfo> blogs = result.getBody().documents.stream().map(document -> {
@@ -69,6 +56,7 @@ public class KakaoClient implements SearchClient {
                 .page(pagination)
                 .build();
     }
+
     @Override
     public HttpHeaders createHeader() {
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -79,6 +67,17 @@ public class KakaoClient implements SearchClient {
         return httpHeaders;
     }
 
+    public URI uriBuilder(KakaoRequest request) {
+        URI uri = UriComponentsBuilder.fromHttpUrl(URL)
+                .queryParam("query", request.getQuery())
+                .queryParam("sort", request.getSort())
+                .queryParam("page", request.getPage())
+                .queryParam("size", request.getSize())
+                .build()
+                .encode()
+                .toUri();
+        return uri;
+    }
 
     @Getter
     @NoArgsConstructor
@@ -106,6 +105,4 @@ public class KakaoClient implements SearchClient {
         private int pageable_count;
         private boolean is_end;
     }
-
-
 }

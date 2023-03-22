@@ -2,6 +2,7 @@ package modules.be.client.factory.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.*;
+import modules.be.client.dto.KakaoRequest;
 import modules.be.client.dto.SearchBaseResponse;
 import modules.be.client.dto.NaverRequest;
 import modules.be.client.dto.SearchRequest;
@@ -28,8 +29,6 @@ public class NaverClient implements SearchClient{
     private final String CLIENT_ID = "1mZHo66nce25UyYq7yDh";
     private final String SECRET = "HNA7wdjufb";
 
-    private ObjectMapper objectMapper = new ObjectMapper();
-
     private final RestTemplate restTemplate;
 
     @Override
@@ -37,17 +36,9 @@ public class NaverClient implements SearchClient{
         // 요청처리
         NaverRequest request = new NaverRequest(requestParam);
         HttpEntity<String> httpEntity = new HttpEntity<>(createHeader());
-        URI uri = UriComponentsBuilder.fromHttpUrl(URL)
-                .queryParam("query", request.getQuery())
-                .queryParam("sort", request.getSort())
-                .queryParam("start", request.getStart())
-                .queryParam("display", request.getDisplay())
-                .build()
-                .encode()
-                .toUri();
 
         //요청
-        ResponseEntity<NaverResponse> result = restTemplate.exchange(uri, HttpMethod.GET,httpEntity, NaverResponse.class);
+        ResponseEntity<NaverResponse> result = restTemplate.exchange(createUri(request), HttpMethod.GET,httpEntity, NaverResponse.class);
 
         List<BlogInfo> blogs = result.getBody().items.stream().map(item -> {
             return BlogInfo.builder()
@@ -56,8 +47,6 @@ public class NaverClient implements SearchClient{
                     .title(item.title)
                     .url(item.bloggerlink)
                     .thumbnail(item.link)
-//                    .datetime(item.postdate)
-//                    .datetime(item.postdate.withZoneSameInstant(ZoneId.of("UTC")).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                     .date(LocalDate.parse(item.postdate,DateTimeFormatter.ofPattern("yyyyMMdd")))
                     .build();
         }).toList();
@@ -74,6 +63,18 @@ public class NaverClient implements SearchClient{
                 .build();
     }
 
+    public URI uriBuilder_(KakaoRequest request) {
+        URI uri = UriComponentsBuilder.fromHttpUrl(URL)
+                .queryParam("query", request.getQuery())
+                .queryParam("sort", request.getSort())
+                .queryParam("page", request.getPage())
+                .queryParam("size", request.getSize())
+                .build()
+                .encode()
+                .toUri();
+        return uri;
+    }
+
     @Override
     public HttpHeaders createHeader() {
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -81,6 +82,17 @@ public class NaverClient implements SearchClient{
         httpHeaders.add("X-Naver-Client-Id", CLIENT_ID);
         httpHeaders.add("X-Naver-Client-Secret", SECRET);
         return httpHeaders;
+    }
+
+    private URI createUri(NaverRequest request){
+        return UriComponentsBuilder.fromHttpUrl(URL)
+                .queryParam("query", request.getQuery())
+                .queryParam("sort", request.getSort())
+                .queryParam("start", request.getStart())
+                .queryParam("display", request.getDisplay())
+                .build()
+                .encode()
+                .toUri();
     }
 
     @Getter

@@ -39,9 +39,10 @@ subprojects {
     }
 }
 
+
 project(":api"){
     jar {
-        archivesBaseName = 'api'
+        archivesBaseName = 'kakaobank-test-module'
     }
     version '1.0.0-SNAPSHOT'
 }
@@ -54,7 +55,6 @@ project(":domain"){
     bootJar {
         enabled = false
     }
-//    version '1.0.0-SNAPSHOT'
 }
 
 project(":client"){
@@ -65,5 +65,4 @@ project(":client"){
     bootJar {
         enabled = false
     }
-//    version '1.0.0-SNAPSHOT'
 }

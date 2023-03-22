@@ -14,22 +14,11 @@ public class BaseResponse<T>{
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String message;     // 응답 메세지
 
-//    public BaseResponse(T response) {
-//        this.data = response;
-//    }
-
     @Builder
     public BaseResponse(String code, String message, HttpStatus status) {
         this.code = code;
         this.message = message;
         this.status = status.value();
-    }
-
-    @Builder
-    public BaseResponse() {
-        this.code = ResponseCode.OK.getCode();
-        this.data = null;
-        this.status = ResponseCode.OK.getStatus().value();
     }
 
     @Builder

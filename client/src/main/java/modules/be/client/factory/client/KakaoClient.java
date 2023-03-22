@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -40,27 +41,28 @@ public class KakaoClient implements SearchClient {
                 .toUri();
 
         //요청
-        ResponseEntity<KakaoResponse> result = null;
-            //400 Bad Request: "{"errorType":"MissingParameter","message":"query parameter required"}"
-            result = restTemplate.exchange(uri,HttpMethod.GET,httpEntity, KakaoResponse.class);
+        ResponseEntity<KakaoResponse> result = restTemplate.exchange(uri,HttpMethod.GET,httpEntity, KakaoResponse.class);
 
 
         //응답처리
         List<BlogInfo> blogs = result.getBody().documents.stream().map(document -> {
+            String datetime = document.datetime.withZoneSameInstant(ZoneId.of("UTC")).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
             return BlogInfo.builder()
                     .blogname(document.blogname)
                     .contents(document.contents)
                     .title(document.title)
                     .url(document.url)
                     .thumbnail(document.thumbnail)
-                    .datetime(document.datetime.withZoneSameInstant(ZoneId.of("UTC")).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+//                    .date(document.datetime.withZoneSameInstant(ZoneId.of("UTC")).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                    .date(LocalDate.parse(datetime))
                     .build();
             }).toList();
 
         Pagination pagination = Pagination.builder()
                         .totalCount(result.getBody().meta.pageable_count)
-                        .size(Integer.parseInt(requestParam.getPageSize()))
-                        .currentPage(Integer.parseInt(requestParam.getSearchPage()))
+                        .size(requestParam.getPageSize())
+                        .currentPage(requestParam.getSearchPage())
                         .build();
 
         return SearchBaseResponse.builder()

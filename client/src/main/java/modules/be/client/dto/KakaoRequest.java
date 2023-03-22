@@ -2,16 +2,15 @@ package modules.be.client.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor
-public class KakaoRequest{
-
+public class KakaoRequest {
     private String query;
-    private String size;
-    private String page;
+    private int size;
+    private int page;
     private String sort;
-
     public KakaoRequest(SearchRequest request){
         this.query = request.getKeyword();
         this.size = request.getPageSize();

@@ -14,14 +14,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-@RecordApplicationEvents
 class BlogSearchServiceTest {
     @Autowired
     BlogSearchService blogSearchService;
     @Autowired
     SearchWordLogService searchWordLogService;
 
-    private SearchRequest createRequest(String keyword, String pageSize, String searchPage, Sort sort){
+    private SearchRequest createRequest(String keyword, int pageSize, int searchPage, Sort sort){
         return SearchRequest.builder()
                 .keyword(keyword)
                 .searchPage(searchPage)
@@ -34,7 +33,7 @@ class BlogSearchServiceTest {
     void 검색어_저장_이벤트_테스트() {
         //given
         String keyword = "카카오뱅크";
-        SearchRequest request = createRequest(keyword, "5", "1", Sort.ACCURACY);
+        SearchRequest request = createRequest(keyword, 5, 1, Sort.ACCURACY);
 
         //when
         blogSearchService.searchBlog(request);

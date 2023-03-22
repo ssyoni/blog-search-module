@@ -21,6 +21,6 @@ public class BlogInfo {
     public String url;
     public String blogname;
     public String thumbnail;
-    public String datetime;
+    public LocalDate date;
 
 }

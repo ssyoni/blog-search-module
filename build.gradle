@@ -8,16 +8,12 @@ buildscript {
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
         classpath "io.spring.gradle:dependency-management-plugin:1.0.15.RELEASE"
+
     }
-//    configurations {
-//        compileOnly {
-//            extendsFrom annotationProcessor
-//        }
-//    }
 }
 
 subprojects {
-    apply plugin: 'java'
+    apply plugin: 'java-library'
     apply plugin: 'idea'
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
@@ -31,6 +27,7 @@ subprojects {
 
     dependencies {
         implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'com.fasterxml.jackson.core:jackson-core:2.13.4'
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -46,6 +43,29 @@ project(":api"){
     jar {
         archivesBaseName = 'api'
     }
-    // 버전별로 jar 생성을 위해 필요 (버전별 관리가 필요함.)
+    version '1.0.0-SNAPSHOT'
+}
+
+project(":domain"){
+    // jar 이름 지정
+    jar {
+        archivesBaseName = 'domain'
+        enabled = true
+    }
+    bootJar {
+        enabled = false
+    }
+    version '1.0.0-SNAPSHOT'
+}
+
+project(":client"){
+    // jar 이름 지정
+    jar {
+        archivesBaseName = 'client'
+        enabled = true
+    }
+    bootJar {
+        enabled = false
+    }
     version '1.0.0-SNAPSHOT'
 }

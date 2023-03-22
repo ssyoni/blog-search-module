@@ -13,9 +13,11 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
 
 @Component
@@ -38,8 +40,8 @@ public class NaverClient implements SearchClient{
         URI uri = UriComponentsBuilder.fromHttpUrl(URL)
                 .queryParam("query", request.getQuery())
                 .queryParam("sort", request.getSort())
-                .queryParam("page", request.getStart())
-                .queryParam("size", request.getDisplay())
+                .queryParam("start", request.getStart())
+                .queryParam("display", request.getDisplay())
                 .build()
                 .encode()
                 .toUri();
@@ -48,7 +50,6 @@ public class NaverClient implements SearchClient{
         ResponseEntity<NaverResponse> result = restTemplate.exchange(uri, HttpMethod.GET,httpEntity, NaverResponse.class);
 
         List<BlogInfo> blogs = result.getBody().items.stream().map(item -> {
-
             return BlogInfo.builder()
                     .blogname(item.bloggername)
                     .contents(item.description)
@@ -56,13 +57,14 @@ public class NaverClient implements SearchClient{
                     .url(item.bloggerlink)
                     .thumbnail(item.link)
 //                    .datetime(item.postdate)
-                    .datetime(item.postdate.withZoneSameInstant(ZoneId.of("UTC")).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+//                    .datetime(item.postdate.withZoneSameInstant(ZoneId.of("UTC")).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                    .date(LocalDate.parse(item.postdate,DateTimeFormatter.ofPattern("yyyyMMdd")))
                     .build();
         }).toList();
 
         Pagination pagination = Pagination.builder()
                 .totalCount(result.getBody().total)
-                .size(Integer.parseInt(requestParam.getPageSize()))
+                .size(requestParam.getPageSize())
                 .currentPage(result.getBody().start) // 마지막 페이지면 현재 페이지 반환, 아니면 다음 페이지
                 .build();
 
@@ -99,7 +101,7 @@ public class NaverClient implements SearchClient{
         private String bloggerlink;
         private String bloggername;
         private String link;
-        private ZonedDateTime postdate;
+        private String postdate;
     }
 
 

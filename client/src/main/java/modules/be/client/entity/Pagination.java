@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class Pagination {
     public int totalCount;      // 총 검색 결과
     public int size;            // 한 페이지당 출력 갯수
-    public int currentPage;     //다음 페이지
+    public int currentPage;     // 다음 페이지
     public int totalPage;       // 총 페이지 갯수
 
     @Builder

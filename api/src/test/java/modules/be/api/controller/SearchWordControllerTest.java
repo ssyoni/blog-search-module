@@ -22,7 +22,7 @@ class SearchWordControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
-    private SearchRequest createRequest(String keyword, String pageSize, String searchPage, Sort sort){
+    private SearchRequest createRequest(String keyword, int pageSize, int searchPage, Sort sort){
         return SearchRequest.builder()
                 .keyword(keyword)
                 .searchPage(searchPage)

@@ -15,7 +15,7 @@ public enum ErrorCode {
 
     private final String code;
     private final String message;
-    private final HttpStatus status;   // 응답 상태코드
+    private final HttpStatus status;
 
     public String getMessage(){
         return this.message;

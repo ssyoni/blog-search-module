@@ -11,8 +11,6 @@ import java.nio.charset.StandardCharsets;
 
 @Configuration
 public class RestTemplateConfig {
-
-
     @Bean
     public RestTemplate restTemplate() {
         HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
@@ -20,6 +18,5 @@ public class RestTemplateConfig {
         factory.setConnectTimeout(3000);
         return new RestTemplate(factory);
     }
-
 }
 

@@ -30,7 +30,7 @@ class BlogSearchControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
-    private SearchRequest createRequest(String keyword, String pageSize, String searchPage, Sort sort){
+    private SearchRequest createRequest(String keyword, int pageSize, int searchPage, Sort sort){
         return SearchRequest.builder()
                 .keyword(keyword)
                 .searchPage(searchPage)
@@ -41,7 +41,7 @@ class BlogSearchControllerTest {
     @Test
     public void 블로그_검색_요청() throws Exception {
         //when
-        SearchRequest request = createRequest("카카오뱅크","5","1",Sort.ACCURACY);
+        SearchRequest request = createRequest("카카오뱅크",5,1,Sort.ACCURACY);
 
         //given
         mvc.perform(MockMvcRequestBuilders.post("/api/blog/search")

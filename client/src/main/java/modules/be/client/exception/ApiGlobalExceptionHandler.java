@@ -26,14 +26,5 @@ public class ApiGlobalExceptionHandler {
                 e.getStatus());
     }
 
-//    @ExceptionHandler({
-//            InternalServerException.class
-//    })
-//    private ResponseEntity<BaseException> handleCustomExceptionBy500Error(CustomException e) {
-//        return exceptionResponse(
-//                e.getCode(),
-//                e.getMsg(),
-//                e.getStatus());
-//    }
 
 }

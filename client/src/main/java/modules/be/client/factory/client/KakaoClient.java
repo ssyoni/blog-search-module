@@ -2,11 +2,10 @@ package modules.be.client.factory.client;
 
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
-import modules.be.client.dto.SearchBaseResponse;
-import modules.be.client.dto.KakaoRequest;
-import modules.be.client.dto.SearchRequest;
+import modules.be.client.dto.*;
 import modules.be.client.entity.BlogInfo;
 import modules.be.client.entity.Pagination;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -23,13 +22,17 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class KakaoClient implements SearchClient {
-    private String URL = "https://dapi.kakao.com/v2/search/blog";
-    private String API_KEY = "KakaoAK 383d35930fb99d8d14ff9eb70177444f";
+    @Value("${open-api.kakao.url}")
+    private static String URL;
+
+    @Value("${open-api.kakao.api-key}")
+    private static String API_KEY;
     private final RestTemplate restTemplate;
 
     public SearchBaseResponse request(SearchRequest requestParam) {
         // 요청처리
         KakaoRequest request = new KakaoRequest(requestParam);
+
         HttpEntity<String> httpEntity = new HttpEntity<>(createHeader());
         URI uri = UriComponentsBuilder.fromHttpUrl(URL)
                 .queryParam("query", request.getQuery())
@@ -54,7 +57,6 @@ public class KakaoClient implements SearchClient {
                     .title(document.title)
                     .url(document.url)
                     .thumbnail(document.thumbnail)
-//                    .date(document.datetime.withZoneSameInstant(ZoneId.of("UTC")).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                     .date(LocalDate.parse(datetime))
                     .build();
             }).toList();

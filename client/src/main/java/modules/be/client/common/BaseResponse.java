@@ -20,6 +20,11 @@ public class BaseResponse<T>{
         this.message = message;
         this.status = status.value();
     }
+    @Builder
+    public BaseResponse(String message, HttpStatus status) {
+        this.message = message;
+        this.status = status.value();
+    }
 
     @Builder
     public BaseResponse(T obj) {

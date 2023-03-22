@@ -4,12 +4,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import modules.be.api.service.BlogSearchService;
 import modules.be.client.dto.SearchRequest;
 import modules.be.client.entity.Sort;
+import modules.be.domain.repository.SearchWordLogRepository;
+import modules.be.domain.repository.SearchWordScoreRepository;
 import modules.be.domain.service.SearchWordLogService;
 import modules.be.domain.service.SearchWordScoreService;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -25,6 +30,10 @@ class BlogSearchControllerTest {
     SearchWordLogService logService;
     @MockBean
     SearchWordScoreService scoreService;
+    @MockBean
+    SearchWordLogRepository logRepository;
+    @MockBean
+    SearchWordScoreRepository scoreRepository;
     @Autowired
     MockMvc mvc;
     @Autowired

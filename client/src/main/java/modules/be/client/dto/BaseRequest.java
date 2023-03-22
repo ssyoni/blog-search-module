@@ -1,14 +1,21 @@
 package modules.be.client.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import modules.be.client.entity.Sort;
 
 @Getter
-@AllArgsConstructor
+@NoArgsConstructor
 public class BaseRequest {
     protected String keyword;
-    protected String searchPage = "1";
+    protected int searchPage = 1;
     protected Sort pageSort = Sort.ACCURACY;
-    protected String pageSize = "10";
+    protected int pageSize = 10;
+
+    BaseRequest(SearchRequest request){
+        this.keyword = request.getKeyword();
+        this.searchPage = request.getPageSize();
+        this.pageSort = request.getPageSort();
+        this.pageSize = request.getPageSize();
+    }
 }

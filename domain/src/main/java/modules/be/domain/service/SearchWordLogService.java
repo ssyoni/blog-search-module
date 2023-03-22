@@ -2,6 +2,7 @@ package modules.be.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import modules.be.client.exception.custom.H2DbUniqueConstraintException;
 import modules.be.client.exception.custom.NotFoundKeywordException;
 import modules.be.domain.dto.HotKeywordsResponse;
 import modules.be.domain.dto.SearchWordResponse;
@@ -34,6 +35,21 @@ public class SearchWordLogService {
     @Transactional
     public SearchWordResponse writeSearchWord(String keyword){
         SearchWordLog searchWordLog = searchWordLogRepository.findByKeywordForUpdate(keyword);
+        SearchWordLog result = null;
+        try {
+            result = upsertSearchWord(searchWordLog, keyword);
+        }catch(Exception e){
+            log.debug("H2 DB 유니크 제약조건으로 인한 중복키 조회 이슈. 검색 키워드 = {}",keyword);
+            throw new H2DbUniqueConstraintException();
+        }
+
+
+        // 검색어 쓰기작업이 일어나면 검색조회 테이블을 갱신한다.
+        publisher.publishEvent(new UpdatedKeywordEvent(result.getId(), result.getKeyword(), result.getScore()));
+        return new SearchWordResponse(result);
+    }
+
+    private SearchWordLog upsertSearchWord(SearchWordLog searchWordLog, String keyword){
         boolean isWordExist = searchWordLog != null;
         // update
         if (isWordExist){
@@ -43,14 +59,7 @@ public class SearchWordLogService {
         else{
             searchWordLog = searchWordLogRepository.save(new SearchWordLog(keyword));
         }
-
-//        if (searchWordLog == null){
-//            // TODO 예외 핸들링
-//            throw new NotFoundKeywordException();
-//        }
-        // 검색어 쓰기작업이 일어나면 검색조회 테이블을 갱신한다.
-        publisher.publishEvent(new UpdatedKeywordEvent(searchWordLog.getId(), searchWordLog.getKeyword(), searchWordLog.getScore()));
-        return new SearchWordResponse(searchWordLog);
+        return searchWordLog;
     }
 
 }

@@ -23,10 +23,10 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class NaverClient implements SearchClient{
-    private static String URL = "https://openapi.naver.com/v1/search/blog.json";
 
-    private static String CLIENT_ID = "1mZHo66nce25UyYq7yDh";
-    private static String SECRET = "HNA7wdjufb";
+    private final String URL = "https://openapi.naver.com/v1/search/blog.json";
+    private final String CLIENT_ID = "1mZHo66nce25UyYq7yDh";
+    private final String SECRET = "HNA7wdjufb";
 
     private ObjectMapper objectMapper = new ObjectMapper();
 

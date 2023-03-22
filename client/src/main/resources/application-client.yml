@@ -4,12 +4,11 @@ server:
       charset: UTF-8
       force: true
 
-
 open-api:
   kakao:
     url: https://dapi.kakao.com/v2/search/blog
-    api-key: KakaoAK 383d35930fb99d8d14ff9eb70177444f
+    key: KakaoAK 383d35930fb99d8d14ff9eb70177444f
   naver:
     url: https://openapi.naver.com/v1/search/blog.json
-    X-Naver-Client-Id: 1mZHo66nce25UyYq7yDh
-    X-Naver-Client-Secret: HNA7wdjufb
+    client-id: 1mZHo66nce25UyYq7yDh
+    secret: HNA7wdjufb

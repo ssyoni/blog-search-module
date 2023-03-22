@@ -14,5 +14,4 @@ import java.util.List;
 public class SearchBaseResponse {
     List<BlogInfo> blogs;
     Pagination page;
-
 }

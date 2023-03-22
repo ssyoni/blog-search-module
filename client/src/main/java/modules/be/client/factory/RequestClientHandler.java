@@ -22,7 +22,6 @@ public class RequestClientHandler {
             response = factory.create(TargetClient.KAKAO).request(param);
 
         }catch (ResourceAccessException e){
-            // TODO 예외처리 카카오 서버장애 오류코드로 처리해야할듯
             if (e.getCause() instanceof SocketTimeoutException){
                 // 타임아웃 시에 네이버에게 요청
                 response = factory.create(TargetClient.NAVER).request(param);

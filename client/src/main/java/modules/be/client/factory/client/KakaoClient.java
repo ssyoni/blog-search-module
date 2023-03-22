@@ -22,11 +22,8 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class KakaoClient implements SearchClient {
-    @Value("${open-api.kakao.url}")
-    private static String URL;
-
-    @Value("${open-api.kakao.api-key}")
-    private static String API_KEY;
+    private final String URL = "https://dapi.kakao.com/v2/search/blog";
+    private final String API_KEY = "KakaoAK 383d35930fb99d8d14ff9eb70177444f";
     private final RestTemplate restTemplate;
 
     public SearchBaseResponse request(SearchRequest requestParam) {

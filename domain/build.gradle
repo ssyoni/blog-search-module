@@ -8,6 +8,7 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation project(path: ':client')
     runtimeOnly 'com.h2database:h2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     // https://mvnrepository.com/artifact/org.springframework/spring-tx
@@ -25,3 +26,6 @@ tasks.named('test') {
 }
 
 tasks.register("prepareKotlinBuildScriptModel"){}
+
+tasks.bootJar { enabled = false }
+tasks.jar { enabled = true }

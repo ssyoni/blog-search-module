@@ -16,7 +16,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/searchword")
 public class SearchWordController {
-
     private final SearchWordScoreService searchWordScoreService;
     @GetMapping
     public BaseResponse<HotKeywordsResponse> searchHotKeyword(){
@@ -25,4 +24,3 @@ public class SearchWordController {
     }
 
 }
-

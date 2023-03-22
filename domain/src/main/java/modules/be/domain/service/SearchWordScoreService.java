@@ -1,9 +1,9 @@
 package modules.be.domain.service;
 
 import lombok.RequiredArgsConstructor;
+import modules.be.client.exception.custom.NotFoundHotKeywordExeption;
 import modules.be.domain.dto.HotKeywordsResponse;
 import modules.be.domain.dto.SearchWordResponse;
-import modules.be.domain.entity.SearchWordLog;
 import modules.be.domain.entity.SearchWordScore;
 import modules.be.domain.event.UpdatedKeywordEvent;
 import modules.be.domain.repository.SearchWordScoreRepository;
@@ -19,14 +19,18 @@ public class SearchWordScoreService {
 
     @Transactional
     public void saveSearchWord(UpdatedKeywordEvent event){
-        // TODO 예외처리
-        searchWordScoreRepository.save(new SearchWordScore(event.getId(), event.getKeyword(), event.getScore()));
+        SearchWordScore searchWordScore = new SearchWordScore(event.getId(), event.getKeyword(), event.getScore());
+        SearchWordScore result = searchWordScoreRepository.save(searchWordScore);
+        if (result == null) {
+            throw new RuntimeException("searchWordScore save is fail");
+        }
     }
 
     @Transactional
     public HotKeywordsResponse findAllSearchWordScoreList(){
-        // TODO 예외처리
         List<SearchWordScore> searchWordScores = searchWordScoreRepository.findTop10ByOrderByScoreDesc();
+        if (searchWordScores.size() < 1) throw new NotFoundHotKeywordExeption();
+
         List<SearchWordResponse> responses = searchWordScores.stream().map(searchWordScore -> {
             return SearchWordResponse.builder()
                     .keyword(searchWordScore.getKeyword())

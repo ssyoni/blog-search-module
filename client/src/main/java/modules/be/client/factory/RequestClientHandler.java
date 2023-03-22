@@ -22,6 +22,7 @@ public class RequestClientHandler {
             response = client.request(param);
 
         }catch (ResourceAccessException e){
+            // TODO 예외처리
             if (e.getCause() instanceof SocketTimeoutException){
                 // 타임아웃 시에 네이버에게 요청
                 SearchClient client = generator.create("NAVER");

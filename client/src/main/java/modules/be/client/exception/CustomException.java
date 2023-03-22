@@ -1,4 +1,4 @@
-package modules.be.client.common.exception;
+package modules.be.client.exception;
 
 import org.springframework.http.HttpStatus;
 

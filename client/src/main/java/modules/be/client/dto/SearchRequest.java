@@ -1,25 +1,22 @@
 package modules.be.client.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.ToString;
-import modules.be.client.common.exception.ErrorCode;
+import lombok.*;
 import modules.be.client.entity.Sort;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 @Getter
 @NoArgsConstructor
 @ToString
 public class SearchRequest {
 
-//    @NotNull(message = "keyword는 null일 수 없다")
-    @NonNull
+    @NotBlank
     private String keyword;
     private String searchPage = "1";
     private Sort pageSort = Sort.ACCURACY;
     private String pageSize = "10";
+
+    @Builder
     public SearchRequest(String keyword, String searchPage, Sort pageSort, String pageSize){
         this.keyword = keyword;
         this.searchPage = searchPage;

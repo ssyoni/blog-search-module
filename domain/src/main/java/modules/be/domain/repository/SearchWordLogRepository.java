@@ -13,12 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.LockModeType;
 import javax.persistence.QueryHint;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface SearchWordLogRepository extends JpaRepository<SearchWordLog, UUID> {
 
-    @Lock(LockModeType.PESSIMISTIC_READ)
-    @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value ="3000")})   // 딜레이 제한
-    @Transactional // TODO 트랜잭션 격리레벨 이상한데?
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("select s from SearchWordLog s where s.keyword = :keyword")
+    SearchWordLog findByKeywordForUpdate(String keyword);
+
     SearchWordLog findByKeyword(String keyword);
 }

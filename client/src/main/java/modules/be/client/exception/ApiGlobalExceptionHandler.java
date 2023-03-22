@@ -1,7 +1,9 @@
-package modules.be.client.common.exception;
+package modules.be.client.exception;
 
 import modules.be.client.common.BaseResponse;
-import modules.be.client.common.exception.custom.InvalidParameterException;
+import modules.be.client.exception.custom.InvalidParameterException;
+import modules.be.client.exception.custom.NotFoundHotKeywordExeption;
+import modules.be.client.exception.custom.NotFoundKeywordException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,6 +13,8 @@ public class ApiGlobalExceptionHandler {
 
     @ExceptionHandler({
             InvalidParameterException.class,
+            NotFoundKeywordException.class,
+            NotFoundHotKeywordExeption.class
     })
     private ResponseEntity<BaseResponse> handleCustomException(CustomException e) {
         return new ResponseEntity<>(
@@ -21,5 +25,15 @@ public class ApiGlobalExceptionHandler {
                         .build(),
                 e.getStatus());
     }
+
+//    @ExceptionHandler({
+//            InternalServerException.class
+//    })
+//    private ResponseEntity<BaseException> handleCustomExceptionBy500Error(CustomException e) {
+//        return exceptionResponse(
+//                e.getCode(),
+//                e.getMsg(),
+//                e.getStatus());
+//    }
 
 }

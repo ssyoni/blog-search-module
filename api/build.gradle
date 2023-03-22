@@ -2,12 +2,6 @@ plugins {
 	id 'java'
 }
 
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
-}
-
 repositories {
 	mavenCentral()
 }
@@ -15,7 +9,6 @@ repositories {
 dependencies {
 	implementation project(':client')
 	implementation project(':domain')
-//	implementation project(':consumer')
 
 	//log
 	implementation 'ch.qos.logback.contrib:logback-json-classic:0.1.5'

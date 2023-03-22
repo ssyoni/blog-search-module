@@ -26,7 +26,6 @@ subprojects {
     version = '0.0.1-SNAPSHOT'
 
     sourceCompatibility = '17'
-    sourceCompatibility = '17'
     targetCompatibility = '17'
     compileJava.options.encoding = 'UTF-8'
 
@@ -42,4 +41,11 @@ subprojects {
     }
 }
 
-
+project(":api"){
+    // jar 이름 지정
+    jar {
+        archivesBaseName = 'api'
+    }
+    // 버전별로 jar 생성을 위해 필요 (버전별 관리가 필요함.)
+    version '1.0.0-SNAPSHOT'
+}

@@ -1,6 +1,7 @@
 package modules.be.client.factory.client;
 
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import modules.be.client.dto.SearchBaseResponse;
 import modules.be.client.dto.KakaoRequest;
 import modules.be.client.dto.SearchRequest;
@@ -17,6 +18,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class KakaoClient implements SearchClient {
@@ -38,7 +40,10 @@ public class KakaoClient implements SearchClient {
                 .toUri();
 
         //요청
-        ResponseEntity<KakaoResponse> result = restTemplate.exchange(uri,HttpMethod.GET,httpEntity, KakaoResponse.class);
+        ResponseEntity<KakaoResponse> result = null;
+            //400 Bad Request: "{"errorType":"MissingParameter","message":"query parameter required"}"
+            result = restTemplate.exchange(uri,HttpMethod.GET,httpEntity, KakaoResponse.class);
+
 
         //응답처리
         List<BlogInfo> blogs = result.getBody().documents.stream().map(document -> {
